@@ -46,3 +46,5 @@ const sqrArray = arr.map((element: number): number => element *element);
 console.log(sqrArray);
 
 
+
+
