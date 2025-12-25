@@ -13,8 +13,6 @@ class BankAccount {
   private addBalance (balance:number){
     this._userBalance = this._userBalance + balance;
   }
-
-
 }
 
 const shohanAccount = new BankAccount(231,'shohan',12000);
