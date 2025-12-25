@@ -20,6 +20,18 @@ function getValue(myVal: number): boolean | string {
 
 const heros: string[] = ["Thor", "SpiderMan", "IronMan"];
 
-console.log(heros.map((hero) => {
-  return `hero is ${hero}`;
-}))
+console.log(
+  heros.map((hero) => {
+    return `hero is ${hero}`;
+  })
+);
+
+const User = {
+  name: "shohan",
+  email: "shohan@gmail.com",
+  isActive: false,
+};
+
+function createUser({ name, isPaid }: { name: string; isPaid: boolean }) {}
+
+createUser({ name: "Shohan", isPaid: false });
