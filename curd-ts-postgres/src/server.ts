@@ -1,13 +1,60 @@
 import express, { Request, Response } from "express";
-import { pool } from "pg";
+import { Pool } from "pg";
 const app = express();
 const port = 5000;
+import path from "path";
+import dotenv from "dotenv";
 
-const pool: any = new pool({
-  connectionString: `postgresql://neondb_owner:npg_4EVNzf1WMApb@ep-crimson-bar-a1e2850b-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`,
+dotenv.config({ path: path.join(process.cwd(), ".env") });
+
+const pool: any = new Pool({
+  connectionString: `${process.env.CONNECTION_STR}`,
 });
 
+// const initDB = async () => {
+//   await pool.query(`
+//     CREATE TABLE IF NOT EXISTS users (
+//       id SERIAL PRIMARY KEY,
+//       name VARCHAR(100) NOT NULL,
+//       email VARCHAR(255) UNIQUE NOT NULL,
+//       password VARCHAR(255) NOT NULL,
+//       role VARCHAR(50) DEFAULT 'user',
+//       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//     );
+//   `);
+// };
 
+const initDB = async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    age INT,
+    phone VARCHAR(18),
+    address TEXT,
+    create_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+    )
+    `);
+
+  await pool.query(`
+      CREATE TABle IF NOT EXISTS todos(
+      id SERIAL PRIMARY KEY ,
+      user_id INT REFERENCES users(id) ON DELETE CASCADE,
+      title VARCHAR(200),
+      description TEXT,
+      completed BOOLEAN DEFAULT FALSE,
+      due_date DATE,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at  TIMESTAMP DEFAULT NOW()
+      )
+      `);
+};
+
+initDB();
 
 // parser
 app.use(express.json());
@@ -19,7 +66,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/", (req: Request, res: Response) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   res.status(201).json({
     success: true,
