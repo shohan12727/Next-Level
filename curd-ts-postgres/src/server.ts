@@ -109,6 +109,36 @@ app.get("/users/:id", async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: "User fetched",
+        data: result.rows[0],
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+app.put("/users/:id", async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE users SET name=$1, email=$2, password= $3 WHERE id=$4 RETURNING *`,
+      [name, email, password, req.params.id]
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User updated successfully",
+        data: result.rows[0],
       });
     }
   } catch (error: any) {
