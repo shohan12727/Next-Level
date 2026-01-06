@@ -11,7 +11,6 @@ const pool: any = new Pool({
   connectionString: `${process.env.CONNECTION_STR}`,
 });
 
-
 const initDB = async () => {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -52,13 +51,72 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello shohan!");
 });
 
-app.post("/", (req: Request, res: Response) => {
+app.post("/users", async (req: Request, res: Response) => {
   // console.log(req.body);
+  const { name, email, password } = req.body;
+  try {
+    const result = await pool.query(
+      `INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *`,
+      [name, email, password]
+    );
+    res.status(201).json({
+      success: true,
+      message: "data inserted successfully",
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 
-  res.status(201).json({
-    success: true,
-    message: "API is working",
-  });
+  // res.status(201).json({
+  //   success: true,
+  //   message: "API is working",
+  // });
+});
+
+app.get("/users", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`SELECT * FROM users`);
+
+    res.status(200).json({
+      success: true,
+      message: "Get all users",
+      data: result.rows,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+app.get("/users/:id", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE ID = $1`, [
+      req.params.id,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Not found",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "User fetched",
+      });
+    }
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 app.listen(port, () => {
