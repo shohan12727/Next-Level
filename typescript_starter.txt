@@ -1,0 +1,18 @@
+npm i -g typescript 
+tsc --init
+
+comment out 
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "module": "esnext",
+
+created : src and index.ts  and one line code 
+tsc 
+
+
+
+
+
+npx tsx watch src/index.ts
