@@ -1,0 +1,4 @@
+Your tsconfig.json is configured to compile files from src into dist,
+ but package.json has no build script. 
+ Its dev script runs TypeScript directly with tsx, 
+ so it doesn’t create compiled output.

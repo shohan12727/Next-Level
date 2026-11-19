@@ -68,7 +68,7 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     // console.log(index);
     if (index < 0) {
       res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(
+      return res.end(
         JSON.stringify({
           message: "Product Not Found!",
         }),
@@ -84,7 +84,7 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     createProduct(products);
 
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
+    return res.end(
       JSON.stringify({
         message: "Product updated successfully!",
         data: products[index],
@@ -96,7 +96,7 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     // console.log(index);
     if (index < 0) {
       res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(
+      return res.end(
         JSON.stringify({
           message: "Product Not Found!",
         }),
@@ -113,7 +113,7 @@ const productController = async (req: IncomingMessage, res: ServerResponse) => {
     createProduct(products);
 
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
+    return res.end(
       JSON.stringify({
         message: "Product deleted successfully!",
       }),
