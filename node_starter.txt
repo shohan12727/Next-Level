@@ -1,0 +1,34 @@
+npm  init -y
+
+inside package.json
+"main": "server.ts"
+ "type": "module"
+
+now we will download the type script 
+npm i -D typescript 
+
+To add tsconfig.json:
+npx tsc --inti
+
+inside tsconfig.json
+
+umcomment 
+rootDir "./src" and outDir  "./dist"
+module : esnext
+moduleResolution :  "bundler"  // i do not need this to implement 
+
+
+npm install -D @types/node
+
+
+npm i tsx 
+
+
+
+package.json
+"dev": "tsx watch  ./src/server.ts" (inside script)
+
+now in terminal : npm run dev (all will be okay) 
+
+
+ 
