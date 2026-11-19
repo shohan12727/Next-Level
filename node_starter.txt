@@ -28,6 +28,12 @@ npm i tsx
 package.json
 "dev": "tsx watch  ./src/server.ts" (inside script)
 
+
+inside tsconfig.json
+  "types": ["node"],
+
+
+
 now in terminal : npm run dev (all will be okay) 
 
 
