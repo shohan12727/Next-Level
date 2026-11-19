@@ -4,3 +4,4 @@ next thing i need to download  and integrate database with neondb
 there i will get a link also 
 
 -- npm i @types/pg  && npm install pg
+--- npm install dotenv

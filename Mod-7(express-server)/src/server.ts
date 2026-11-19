@@ -1,38 +1,90 @@
-import express from "express"
+import express, { type Application, type Request, type Response } from "express"
 import { Pool } from "pg"
-const app = express();
-const port = 5000;
+import config from "./config";
+const app: Application = express();
 
 const pool = new Pool({
-    connectionString: 
-       "postgresql://neondb_owner:npg_8KyjcDBCmoA4@ep-still-bird-aodg4ts0-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+    connectionString: config.connection_string,
 });
 
+
+app.use(express.json());
+app.use(express.text());
+app.use(express.urlencoded({ extended: true }));
+
+
 const initDB = async () => {
-    try{
+    try {
         await pool.query(`
-            CREATE TABLE users(
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(255),
-            email VARCHAR(255) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL,
-            is_Active BOOLEAN,
-            age INT,
-            created_at  TIMESTAMP DEFAULT NOW(),
-            updated_at TIMESTAMP DEFAULT NOW()
-            )
-            `)
+      CREATE TABLE IF NOT EXISTS users(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255),
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      age INT,
+      is_Active BOOLEAN DEFAULT true,
+      
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+      );
+      `);
+        console.log("Database connected!!");
     } catch (error) {
         console.log(error);
     }
-}
-
-
+};
 
 initDB();
 
 
 
-app.listen(port, () => {
-    console.log(`This express server is running on the server ${port}`);
+app.get("/", (req: Request, res: Response) => {
+    res.status(200).json({
+        success: true,
+        message: "This is root route",
+        author: "KING",
+    })
+
+})
+
+
+
+
+app.post("/api/v1/users", async (req: Request, res: Response) => {
+    try {
+        //   console.log(req.body);
+        const { name, email, password, age } = req.body;
+        //   console.log(password);
+
+        const result = await pool.query(
+            `
+  INSERT INTO users (name,email,password,age) VALUES
+  ($1,$2,$3,$4) RETURNING *
+    `,
+            [name, email, password, age],
+        );
+        // console.log(result);
+
+        res.status(201).json({
+            success: true,
+            message: "User created!!",
+            data: result.rows[0],
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error?.message,
+            error: error,
+        });
+    }
+});
+
+
+
+
+
+
+
+app.listen(config.port, () => {
+    console.log(`This express server is running on the server ${config.port}`);
 })
