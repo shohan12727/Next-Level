@@ -5,3 +5,7 @@ there i will get a link also
 
 -- npm i @types/pg  && npm install pg
 --- npm install dotenv
+
+
+npm install bcryptjs
+npm install -D @types/bcryptjs
