@@ -21,7 +21,7 @@ const loginUserIntoDB = async (payload: {
   );
   //   console.log(user.rows[0]);
   if (user.rowCount === 0) {
-    throw new Error("Invalid credentials!!");
+    throw new Error("Invalid credentials!");
   }
 
   const matchPassword = await bcrypt.compare(password, user.rows[0].password);
@@ -31,7 +31,7 @@ const loginUserIntoDB = async (payload: {
   }
   //  console.log(user.rows[0].is_Active);
   if (!user.rows[0].is_active) {
-    throw new Error("Access denied!!");
+    throw new Error("Access denied!!--");
   }
 
   const jwtPayload = {
