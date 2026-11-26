@@ -19,8 +19,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 app.use(logger);
 
 app.use("/api/v1/users", userRoute);

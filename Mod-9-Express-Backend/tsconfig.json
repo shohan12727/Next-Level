@@ -36,10 +36,13 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true, // i can comment out this 
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  // i can use these two line but not mandatory 
+  // "include": ["src/**/*"],
+  // "exclude": ["node_modules","dist"]
 }
