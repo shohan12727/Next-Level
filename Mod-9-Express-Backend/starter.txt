@@ -1,0 +1,55 @@
+npm  init -y
+
+inside package.json
+"main": "server.ts"
+ "type": "module" // need to add  below "main"
+
+now we will download the type script 
+npm i -D typescript 
+
+To add tsconfig.json:
+npx tsc --init
+
+inside tsconfig.json
+
+umcomment 
+rootDir "./src" and outDir  "./dist"
+module : esnext
+  "types": ["node"]
+  moduleResolution :  "bundler"  //optional
+create src folder with server.ts
+
+
+npm install express
+npm install -D typescript @types/node @types/express 
+
+npm i tsx 
+
+
+
+package.json
+"dev": "tsx watch  ./src/server.ts" (inside script)
+
+
+
+
+
+
+
+now in terminal : npm run dev (all will be okay) 
+
+after following the starter.txt :
+
+next thing i need to download  and integrate database with neondb
+there i will get a link also 
+
+npm i @types/pg  && npm install pg
+--- npm install dotenv
+
+
+npm install bcryptjs
+npm install -D @types/bcryptjs
+
+npm install express cors cookie-parser dotenv bcryptjs jsonwebtoken pg
+
+npm install -D typescript tsx @types/express @types/cors @types/cookie-parser @types/jsonwebtoken @types/pg @types/node
